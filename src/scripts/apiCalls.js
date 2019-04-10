@@ -7,6 +7,9 @@ const API = {
         return fetch(`${apiURL}/places?_embed=interests`)
             .then(r => r.json())
     }
+    // postPoint(parentId){
+    //     return fetch(`${apiURL}/interests?_expand=place`)
+    // }
 }
 
 export default API
