@@ -28,6 +28,14 @@ const domStructure = {
         docFrag.appendChild(descLabel)
         docFrag.appendChild(builder.builder("input", "text", undefined, "descInput"))
         ////
+        let select = builder.builder("select");
+        let selectOptions = ["Hong Kong", "Toyko", "Shanghai"];
+        for(let i = 0; i < selectOptions.length; i++){
+            let option = builder.builder("option", undefined, i + 1, undefined, selectOptions[i]);
+            select.appendChild(option)
+        }
+        docFrag.appendChild(select)
+        ////
         let saveButton = builder.builder("button", "button", undefined, "saveButton", "Save")
         saveButton.addEventListener("click", (handler.handleSave))
         docFrag.appendChild(saveButton);
