@@ -1,4 +1,5 @@
 import API from "./apiCalls"
+import DOM from "./domStructure"
 
 console.log("hey")
-API.getPointsOfInterest()
+API.getPointsOfInterest().then(response => DOM.renderComponents(response))
