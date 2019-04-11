@@ -1,5 +1,6 @@
 import DOM from "./domStructure"
 import API from "./apiCalls"
+import build from "./elementBuilder"
 
 const events = {
     handleSave() {
@@ -18,6 +19,13 @@ const events = {
             "review": revInput.value
         }
         API.postPoint(interestToPost).then(() => API.getPointsOfInterest()).then(r => DOM.renderComponents(r))
+    },
+    handleEdit(){
+        console.log("edit clicked!")
+
+        let interestTarget = event.target.parentNode.id.split("--")[1];
+        let interest = document.querySelector(`#interest--${interestTarget}`);
+
     }
 }
 
