@@ -1,15 +1,21 @@
 import builder from "./elementBuilder"
-import handler from "./eventHandler"
+import handleIt from "./eventHandler"
+
 
 const domStructure = {
     makeInterestComponent(obj) {
-        let section = builder.builder("section", undefined, undefined, `interest--${obj.id}`)
+        let section = builder.builder("section", undefined, undefined, `place--${obj.id}`)
         section.appendChild(builder.builder("h1", undefined, undefined, undefined, `${obj.name}`))
         obj.interests.forEach(e => {
-            section.appendChild(builder.builder("h3", undefined, undefined, undefined, `Name: ${e.name}`))
-            section.appendChild(builder.builder("div", undefined, undefined, undefined, `Description: ${e.description}`))
-            section.appendChild(builder.builder("div", undefined, undefined, undefined, `Cost: $${e.cost}`))
-            section.appendChild(builder.builder("div", undefined, undefined, undefined, `Review: ${e.review}`))
+            let article = builder.builder("article", undefined, undefined, `interest--${e.id}`)
+            article.appendChild(builder.builder("h3", undefined, undefined, undefined, `Name: ${e.name}`))
+            article.appendChild(builder.builder("div", undefined, undefined, undefined, `Description: ${e.description}`))
+            article.appendChild(builder.builder("div", undefined, undefined, undefined, `Cost: $${e.cost}`))
+            article.appendChild(builder.builder("div", undefined, undefined, undefined, `Review: ${e.review}`))
+            let editButton = builder.builder("button", "button", undefined, `editButton--${obj.id}`, "Edit")
+            editButton.addEventListener("click", handleIt.handleEdit)
+            article.appendChild(editButton);
+            section.appendChild(article)
         })
 
         return section;
@@ -28,25 +34,34 @@ const domStructure = {
         docFrag.appendChild(descLabel)
         docFrag.appendChild(builder.builder("input", "text", undefined, "descInput"))
         ////
+        const revLabel = builder.builder("label", undefined, undefined, undefined, "Review: ")
+        docFrag.appendChild(revLabel)
+        docFrag.appendChild(builder.builder("input", "text", undefined, "revInput"))
+        ////
         let select = builder.builder("select");
         let selectOptions = ["Hong Kong", "Toyko", "Shanghai"];
-        for(let i = 0; i < selectOptions.length; i++){
+        for (let i = 0; i < selectOptions.length; i++) {
             let option = builder.builder("option", undefined, i + 1, undefined, selectOptions[i]);
             select.appendChild(option)
         }
         docFrag.appendChild(select)
         ////
         let saveButton = builder.builder("button", "button", undefined, "saveButton", "Save")
-        saveButton.addEventListener("click", (handler.handleSave))
+        saveButton.addEventListener("click", handleIt.handleSave)
         docFrag.appendChild(saveButton);
-        document.getElementById("display-container").appendChild(docFrag)
+        document.getElementById("form-container").appendChild(docFrag)
+    },
+    buildEditForm() {
+
     },
     renderComponents(obj) {
+        let display = document.getElementById("display-container");
         let docFrag = document.createDocumentFragment()
         obj.forEach(element => {
             docFrag.appendChild(this.makeInterestComponent(element))
         });
-        document.getElementById("display-container").appendChild(docFrag)
+        builder.clearElement(display)
+        display.appendChild(docFrag)
     }
 }
 
