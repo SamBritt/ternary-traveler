@@ -1,5 +1,6 @@
 import builder from "./elementBuilder"
-import handler from "./eventHandler"
+import handleIt from "./eventHandler"
+
 
 const domStructure = {
     makeInterestComponent(obj) {
@@ -28,6 +29,10 @@ const domStructure = {
         docFrag.appendChild(descLabel)
         docFrag.appendChild(builder.builder("input", "text", undefined, "descInput"))
         ////
+        const revLabel = builder.builder("label", undefined, undefined, undefined, "Review: ")
+        docFrag.appendChild(revLabel)
+        docFrag.appendChild(builder.builder("input", "text", undefined, "revInput"))
+        ////
         let select = builder.builder("select");
         let selectOptions = ["Hong Kong", "Toyko", "Shanghai"];
         for(let i = 0; i < selectOptions.length; i++){
@@ -37,16 +42,18 @@ const domStructure = {
         docFrag.appendChild(select)
         ////
         let saveButton = builder.builder("button", "button", undefined, "saveButton", "Save")
-        saveButton.addEventListener("click", (handler.handleSave))
+        saveButton.addEventListener("click", handleIt.handleSave)
         docFrag.appendChild(saveButton);
-        document.getElementById("display-container").appendChild(docFrag)
+        document.getElementById("form-container").appendChild(docFrag)
     },
     renderComponents(obj) {
+        let display = document.getElementById("display-container");
         let docFrag = document.createDocumentFragment()
         obj.forEach(element => {
             docFrag.appendChild(this.makeInterestComponent(element))
         });
-        document.getElementById("display-container").appendChild(docFrag)
+        builder.clearElement(display)
+        display.appendChild(docFrag)
     }
 }
 
